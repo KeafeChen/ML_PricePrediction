@@ -2,9 +2,10 @@ import pandas as pd
 import sys
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn import linear_model
+from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 import numpy.linalg as la
+import matplotlib.pyplot as pp
 
 
 def linreg(X,y):
@@ -27,7 +28,6 @@ def kford(k, X, y):
     return z
 
 
-
 if __name__ == '__main__':
     # load the data and randomly get 500 pieces of data
     df = pd.read_csv('./kc_house_data.csv')
@@ -45,16 +45,36 @@ if __name__ == '__main__':
     val_data, test_data = train_test_split(val_test_data, test_size=0.5)
 
     # train and test
-    feature = ['bedrooms', 'bathrooms', 'sqft_living15', 'sqft_lot15', 'yr_built']
-    X_train = np.array(train_data[feature]).reshape(-1, 5)
+    feature = ['sqft_living15']
+    X_train = np.array(train_data[feature])
     Y_train = np.array(train_data['price']).reshape(-1, 1)
-    X_test = np.array(test_data[feature]).reshape(-1, 5)
+    X_test = np.array(test_data[feature])
     Y_test = np.array(test_data['price']).reshape(-1, 1)
 
-    complex_model = linear_model.LinearRegression()
-    complex_model.fit(X_train, Y_train)
-    print('Intercept: {}'.format(complex_model.intercept_))
-    print('Coefficients: {}'.format(complex_model.coef_))
+    regressor = LinearRegression()
+    regressor.fit(X_train, Y_train)
+
+    print('Intercept: {}'.format(regressor.intercept_))
+    print('Coefficients: {}'.format(regressor.coef_))
+
+    # Visualizing the training Test Results
+    pp.scatter(X_train, Y_train, color='red')
+    pp.plot(X_train, regressor.predict(X_train), color='blue')
+    pp.title("Visualization of Training Dataset")
+    pp.xlabel("Space")
+    pp.ylabel("Price")
+    pp.show()
+
+    # Visualizing the Test Results
+    pp.scatter(X_test, Y_test, color='red')
+    pp.plot(X_test, regressor.predict(X_test), color='blue')
+    pp.title("Visualization of testing Dataset")
+    pp.xlabel("Space")
+    pp.ylabel("Price")
+    pp.show()
+
+
+
 
 
 
