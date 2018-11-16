@@ -36,9 +36,7 @@ def kford(k, X, y):
     for i in range(0, k):
         T = set(range(int(np.floor((n * i) / k)), int(np.floor(((n * (i + 1)) / k) - 1)) + 1))
         S = set(range(0, n)) - T
-
         thetaHat = linreg(X[list(S)], y[list(S)])
-
         summ = 0
         for t in T:
             summ += (y[t] - np.dot(X[t], thetaHat)) ** 2
@@ -53,7 +51,7 @@ def kernel(X_train, Y_train, X_test, Y_test):
 
 def visualizationTraining(X_train, Y_train):
     # Visualizing the training Test Results
-    pp.scatter(X_train, Y_train, color='red')
+    pp.scatter(X_train, Y_train, color='red')                   #
     pp.plot(X_train, regressor.predict(X_train), color='blue')
     pp.title("Visualization of Training Dataset")
     pp.xlabel("Space")
@@ -114,8 +112,15 @@ if __name__ == '__main__':
     artrcm1 = format(adjustedR2(regressor.score(train_data[feature], train_data['price']), train_data.shape[0],
                                 len(feature)), '.3f')
 
+    # visualization
+    visualizationTraining(np.array(train_data[feature]), np.array(train_data['price']).reshape(-1, 1))
+    visualizationTesting(np.array(test_data)[feature], pred)
 
-    # Multiple Linear Regression with whole data set
+    # ------------------------------#
+    #                               #
+    # Multiple Linear Regression    #
+    #                               #
+    # ------------------------------#
     complex_model_1 = LinearRegression()
     complex_model_1.fit(np.array(train_data[features1]), np.array(train_data['price']).reshape(-1, 1))
 
@@ -130,10 +135,15 @@ if __name__ == '__main__':
     artrcm1 = format(adjustedR2(complex_model_1.score(train_data[features1], train_data['price']), train_data.shape[0],
                                 len(features1)), '.3f')
 
+    # visualization
+    visualizationTraining(np.array(train_data[features1]), np.array(train_data['price']).reshape(-1, 1))
+    visualizationTesting(np.array(test_data)[features1], pred1)
 
-
-
-    # Kernel function
+    # ----------------------------- #
+    #                               #
+    # Kernel function               #
+    #                               #
+    # ------------------------------#
     kernel(X_train, Y_train, X_test, Y_test)
 
 
