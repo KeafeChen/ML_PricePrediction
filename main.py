@@ -16,12 +16,19 @@ global Y_test
 
 # define the feature
 feature = ['sqft_living']
+features1 = ['bedrooms','bathrooms','sqft_living','sqft_lot','floors','zipcode']
+
 
 # define the linear kernel model
 alg = SVC(C=1.0, kernel='linear')
 
+
+
 def linreg(X,y):
     return np.dot(la.pinv(X),y)
+
+def adjustedR2(r2,n,k):
+    return r2-(k-1)/(n-k)*(1-r2)
 
 def kford(k, X, y):
     (n, d) = np.shape(X)
@@ -95,10 +102,35 @@ if __name__ == '__main__':
     regressor = LinearRegression()
 
     # fit X_train and Y_train
-    regressor.fit(X_train, Y_train)
+    regressor.fit(np.array(train_data[feature]), np.array(train_data['price']).reshape(-1, 1))
 
     print('Intercept: {}'.format(regressor.intercept_))
     print('Coefficients: {}'.format(regressor.coef_))
+
+    pred = regressor.predict(test_data[feature])
+    # Mean Squared Error (MSE)
+    msecm1 = format(np.sqrt(metrics.mean_squared_error(Y_test, pred)), '.3f')
+    # Adjusted R-squared (training)
+    artrcm1 = format(adjustedR2(regressor.score(train_data[feature], train_data['price']), train_data.shape[0],
+                                len(feature)), '.3f')
+
+
+    # Multiple Linear Regression with whole data set
+    complex_model_1 = LinearRegression()
+    complex_model_1.fit(np.array(train_data[features1]), np.array(train_data['price']).reshape(-1, 1))
+
+    print('Intercept: {}'.format(complex_model_1.intercept_))
+    print('Coefficients: {}'.format(complex_model_1.coef_))
+
+    # Prediction
+    pred1 = complex_model_1.predict(test_data[features1])
+    # Mean Squared Error (MSE)
+    msecm1 = format(np.sqrt(metrics.mean_squared_error(Y_test, pred1)), '.3f')
+    # Adjusted R-squared (training)
+    artrcm1 = format(adjustedR2(complex_model_1.score(train_data[features1], train_data['price']), train_data.shape[0],
+                                len(features1)), '.3f')
+
+
 
 
     # Kernel function
