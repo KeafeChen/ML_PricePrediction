@@ -6,4 +6,4 @@ Goal: Establish a model to predict house price based on some information in the 
 Dataset: https://www.kaggle.com/harlfoxem/housesalesprediction
 
 
-Authors: Qifeng Chen, Geyan Zheng, Fujia Tao, Fangshuo Yan.
+Authors: Qifeng Chen, Geyan Zheng, Futao Jia, Fangshuo Yan.
