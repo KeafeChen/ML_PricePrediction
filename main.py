@@ -114,7 +114,8 @@ if __name__ == '__main__':
 
     # visualization
     visualizationTraining(np.array(train_data[feature]), np.array(train_data['price']).reshape(-1, 1))
-    visualizationTesting(np.array(test_data)[feature], pred)
+    visualizationTesting(np.array(test_data[feature]), pred)
+
 
     # ------------------------------#
     #                               #
@@ -135,16 +136,13 @@ if __name__ == '__main__':
     artrcm1 = format(adjustedR2(complex_model_1.score(train_data[features1], train_data['price']), train_data.shape[0],
                                 len(features1)), '.3f')
 
-    # visualization
-    visualizationTraining(np.array(train_data[features1]), np.array(train_data['price']).reshape(-1, 1))
-    visualizationTesting(np.array(test_data)[features1], pred1)
 
     # ----------------------------- #
     #                               #
     # Kernel function               #
     #                               #
     # ------------------------------#
-    kernel(X_train, Y_train, X_test, Y_test)
+   # kernel(X_train, Y_train, X_test, Y_test)
 
 
 
