@@ -278,7 +278,7 @@ if __name__ == '__main__':
 
     # Hyperparameter tuning with nested cross validation
 
-    C_list = [10.0]
+    C_list = [0.1, 1.0, 10.0]
     B = 30
     best_err = 99999999
     best_C = 0.0
